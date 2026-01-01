@@ -290,8 +290,8 @@ export default function LandingPage() {
                 <span className="text-lg font-bold text-white">VitalSense AI</span>
             </div>
             <p className="text-sm">
-                © 2025 VitalSense Project. All rights reserved. <br/>
-                Developed for Applied Health Informatics (IFB-499).
+                © 2026 VitalSense Project. All rights reserved. <br/>
+                Developed for Applied Health Informatics.
             </p>
             <div className="flex gap-6">
                 {/* Tombol Privacy - Memicu Modal */}
