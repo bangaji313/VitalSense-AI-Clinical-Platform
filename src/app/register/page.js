@@ -213,7 +213,7 @@ export default function RegisterPage() {
             </p>
         </div>
         <div className="flex gap-4 opacity-70">
-            <div className="flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4"/> SC11: Secure RBAC</div>
+            <div className="flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4"/> Secure RBAC</div>
         </div>
       </div>
 

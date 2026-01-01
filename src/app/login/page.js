@@ -43,23 +43,22 @@ export default function LoginPage() {
 
   // Fungsi Mengisi Credential Demo
   const fillDemoCredentials = () => {
-    // GANTI INI DENGAN AKUN DOKTER YANG SUDAH MAS REGISTER
+    // Pastikan email ini sesuai dengan akun Dokter yang sudah Mas buat
     setEmail("senoaji3313@gmail.com"); 
-    setPassword("admin123"); // Ganti dengan password akun tersebut
+    setPassword("admin123"); 
     
-    setShowDemoModal(false); // Tutup modal
+    setShowDemoModal(false); 
   };
 
   return (
     <div className="flex min-h-screen w-full bg-slate-50 font-sans">
       
-      {/* --- DEMO ACCOUNT MODAL (FIXED MOBILE SCROLL) --- */}
+      {/* --- DEMO ACCOUNT MODAL --- */}
       {showDemoModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-            {/* PERBAIKAN: Tambah 'flex flex-col max-h-[90vh]' agar modal tidak melebihi tinggi layar HP */}
             <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
                 
-                {/* Modal Header (Tetap Diam/Sticky) */}
+                {/* Modal Header */}
                 <div className="bg-slate-900 px-6 py-5 md:px-8 md:py-6 flex justify-between items-start shrink-0">
                     <div>
                         <h3 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
@@ -75,7 +74,7 @@ export default function LoginPage() {
                     </button>
                 </div>
 
-                {/* Modal Body (Bisa di-Scroll 'overflow-y-auto') */}
+                {/* Modal Body (Scrollable) */}
                 <div className="p-6 md:p-8 overflow-y-auto">
                     <div className="mb-6 bg-blue-50 border border-blue-100 rounded-lg p-4 text-sm text-blue-800">
                         <strong>Notice:</strong> You are about to use a Shared Demo Account with <span className="font-bold underline">Chief Medical Officer</span> privileges. This grants you full access to all system modules.
@@ -84,7 +83,6 @@ export default function LoginPage() {
                     <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Available System Roles (RBAC)</h4>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                        {/* Role 1 */}
                         <div className="p-4 rounded-xl border border-teal-200 bg-teal-50 relative overflow-hidden">
                             <div className="absolute top-0 right-0 bg-teal-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">DEMO ACCESS</div>
                             <div className="font-bold text-slate-800 mb-1">Medical Doctor (Chief)</div>
@@ -92,21 +90,18 @@ export default function LoginPage() {
                                 Full access to Command Center, Patient Data, Integration API, and Audit Logs.
                             </p>
                         </div>
-                        {/* Role 2 */}
                         <div className="p-4 rounded-xl border border-slate-200 bg-white opacity-70">
                             <div className="font-bold text-slate-800 mb-1">ICU Nurse</div>
                             <p className="text-xs text-slate-600 leading-relaxed">
                                 Restricted access. Operational monitoring and patient assessment input only. No API access.
                             </p>
                         </div>
-                        {/* Role 3 */}
                         <div className="p-4 rounded-xl border border-slate-200 bg-white opacity-70">
                             <div className="font-bold text-slate-800 mb-1">IT Support</div>
                             <p className="text-xs text-slate-600 leading-relaxed">
                                 Technical access only (Data Migration & Integration). Cannot view patient clinical details.
                             </p>
                         </div>
-                        {/* Role 4 */}
                         <div className="p-4 rounded-xl border border-slate-200 bg-white opacity-70">
                             <div className="font-bold text-slate-800 mb-1">Hospital Admin</div>
                             <p className="text-xs text-slate-600 leading-relaxed">
@@ -119,7 +114,6 @@ export default function LoginPage() {
                         *To test other roles (Nurse/IT/Admin), please Register a new account manually.
                     </p>
 
-                    {/* Tombol Aksi (Akan ikut ter-scroll jika layar sangat pendek) */}
                     <div className="flex flex-col-reverse md:flex-row gap-3 justify-end pt-2">
                         <button 
                             onClick={() => setShowDemoModal(false)}
@@ -141,23 +135,27 @@ export default function LoginPage() {
 
       {/* --- LOGIN PAGE CONTENT --- */}
       
-      {/* Bagian Kiri: Branding */}
+      {/* Bagian Kiri: Visual (PERBAIKAN LAYOUT CENTER) */}
       <div className="hidden w-1/2 flex-col justify-between bg-slate-900 p-12 text-white lg:flex">
-        <div>
-           <div className="flex items-center gap-2 text-teal-400">
-              <Stethoscope className="h-8 w-8" />
-              <span className="text-2xl font-bold tracking-tight">VitalSense AI</span>
-           </div>
-           <div className="mt-12 max-w-lg">
-              <h1 className="text-4xl font-extrabold leading-tight">
-                Predictive Intelligence for Critical Care.
-              </h1>
-              <p className="mt-4 text-slate-400 text-lg">
-                Reduce mortality rates with real-time AI risk scoring, 
-                FHIR interoperability, and automated governance.
-              </p>
-           </div>
+        
+        {/* Item 1: Logo (Top) */}
+        <div className="flex items-center gap-2 text-teal-400">
+           <Stethoscope className="h-8 w-8" />
+           <span className="text-2xl font-bold tracking-tight">VitalSense AI</span>
         </div>
+        
+        {/* Item 2: Text (Center - otomatis karena justify-between) */}
+        <div className="max-w-lg">
+           <h1 className="text-4xl font-extrabold leading-tight">
+             Predictive Intelligence for Critical Care.
+           </h1>
+           <p className="mt-4 text-slate-400 text-lg">
+             Reduce mortality rates with real-time AI risk scoring, 
+             FHIR interoperability, and automated governance.
+           </p>
+        </div>
+
+        {/* Item 3: Footer (Bottom) */}
         <div className="flex gap-6 opacity-70">
             <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-teal-400" />
@@ -226,7 +224,6 @@ export default function LoginPage() {
                         {loading ? "Verifying Credentials..." : <>Access System <ArrowRight className="h-5 w-5" /></>}
                     </button>
 
-                    {/* TOMBOL DEMO BARU */}
                     <button 
                         type="button"
                         onClick={() => setShowDemoModal(true)}
