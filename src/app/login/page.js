@@ -53,19 +53,21 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full bg-slate-50 font-sans">
       
-      {/* --- DEMO ACCOUNT MODAL --- */}
+      {/* --- DEMO ACCOUNT MODAL (FIXED MOBILE SCROLL) --- */}
       {showDemoModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-            <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-                {/* Modal Header */}
-                <div className="bg-slate-900 px-8 py-6 flex justify-between items-start">
+            {/* PERBAIKAN: Tambah 'flex flex-col max-h-[90vh]' agar modal tidak melebihi tinggi layar HP */}
+            <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+                
+                {/* Modal Header (Tetap Diam/Sticky) */}
+                <div className="bg-slate-900 px-6 py-5 md:px-8 md:py-6 flex justify-between items-start shrink-0">
                     <div>
-                        <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                        <h3 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
                             <Info className="h-5 w-5 text-teal-400" /> 
                             System Access & Role Guide
                         </h3>
-                        <p className="text-slate-400 text-sm mt-1">
-                            Please review the access levels before proceeding to the Live Environment.
+                        <p className="text-slate-400 text-xs md:text-sm mt-1">
+                            Please review the access levels before proceeding.
                         </p>
                     </div>
                     <button onClick={() => setShowDemoModal(false)} className="text-slate-400 hover:text-white transition-colors">
@@ -73,8 +75,8 @@ export default function LoginPage() {
                     </button>
                 </div>
 
-                {/* Modal Body */}
-                <div className="p-8">
+                {/* Modal Body (Bisa di-Scroll 'overflow-y-auto') */}
+                <div className="p-6 md:p-8 overflow-y-auto">
                     <div className="mb-6 bg-blue-50 border border-blue-100 rounded-lg p-4 text-sm text-blue-800">
                         <strong>Notice:</strong> You are about to use a Shared Demo Account with <span className="font-bold underline">Chief Medical Officer</span> privileges. This grants you full access to all system modules.
                     </div>
@@ -117,7 +119,8 @@ export default function LoginPage() {
                         *To test other roles (Nurse/IT/Admin), please Register a new account manually.
                     </p>
 
-                    <div className="flex gap-3 justify-end">
+                    {/* Tombol Aksi (Akan ikut ter-scroll jika layar sangat pendek) */}
+                    <div className="flex flex-col-reverse md:flex-row gap-3 justify-end pt-2">
                         <button 
                             onClick={() => setShowDemoModal(false)}
                             className="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-colors"
@@ -126,7 +129,7 @@ export default function LoginPage() {
                         </button>
                         <button 
                             onClick={fillDemoCredentials}
-                            className="px-5 py-2.5 rounded-lg bg-teal-600 text-white font-bold text-sm hover:bg-teal-700 shadow-lg shadow-teal-200/50 flex items-center gap-2 transition-all hover:-translate-y-0.5"
+                            className="px-5 py-2.5 rounded-lg bg-teal-600 text-white font-bold text-sm hover:bg-teal-700 shadow-lg shadow-teal-200/50 flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
                         >
                             Load Chief Doctor Credentials <ArrowRight className="h-4 w-4" />
                         </button>
@@ -168,7 +171,7 @@ export default function LoginPage() {
       </div>
 
       {/* Bagian Kanan: Form */}
-      <div className="flex w-full flex-col justify-center px-10 lg:w-1/2">
+      <div className="flex w-full flex-col justify-center px-6 py-10 md:px-10 lg:w-1/2">
         <div className="mx-auto w-full max-w-md">
             <div className="mb-8 text-center lg:text-left">
                 <h2 className="text-3xl font-bold text-slate-900">Sign in to Platform</h2>
