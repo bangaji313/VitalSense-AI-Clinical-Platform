@@ -1,20 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Database, Copy, Check, Server, Loader2, RefreshCw } from "lucide-react";
-// Import Firestore
+import { Database, Copy, Check, Server, Loader2 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { useSearch } from "@/lib/SearchContext";
+import { useSearch } from "@/lib/SearchContext"; 
 
 export default function IntegrationPage() {
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
+  
+  // STATE UNTUK URL DINAMIS
+  const [baseUrl, setBaseUrl] = useState("");
+
   const { searchQuery } = useSearch();
 
-  // 1. AMBIL DATA REAL DARI FIRESTORE
+  // 1. AMBIL URL OTOMATIS (Client Side Only)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Ini akan menghasilkan "http://localhost:3000" atau "https://nama-proyek-mas.vercel.app"
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
+
+  // 2. AMBIL DATA REAL DARI FIRESTORE
   useEffect(() => {
     const q = query(collection(db, "patients"), orderBy("createdAt", "desc"));
     
@@ -25,7 +36,6 @@ export default function IntegrationPage() {
       }));
       setPatients(liveData);
       
-      // Otomatis pilih pasien pertama jika belum ada yang dipilih
       if (liveData.length > 0 && !selectedPatient) {
         setSelectedPatient(liveData[0]);
       }
@@ -33,9 +43,9 @@ export default function IntegrationPage() {
     });
 
     return () => unsubscribe();
-  }, []); // Hapus dependency selectedPatient agar tidak loop
+  }, []); 
 
-  // 2. GENERATE JSON FHIR DINAMIS (Client Side Generation untuk Preview)
+  // 3. GENERATE JSON FHIR DINAMIS
   const generateFHIRResource = (patient) => {
     if (!patient) return {};
     
@@ -82,7 +92,6 @@ export default function IntegrationPage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-700">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Interoperability Interface</h1>
         <p className="text-slate-500">
@@ -91,7 +100,7 @@ export default function IntegrationPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Kolom Kiri: Daftar Pasien LIVE */}
+        {/* Kolom Kiri: Daftar Pasien */}
         <div className="rounded-xl border bg-white p-0 shadow-sm overflow-hidden h-[500px] flex flex-col">
             <div className="border-b bg-slate-50 px-4 py-3 flex items-center justify-between">
                 <h3 className="font-semibold text-slate-700 flex items-center gap-2">
@@ -106,7 +115,6 @@ export default function IntegrationPage() {
             <div className="overflow-y-auto flex-1 p-2 space-y-2">
                 {loading && <p className="text-center text-xs text-slate-400 py-10">Syncing database...</p>}
                 
-                {/* FILTER LOGIC */}
                 {!loading && patients
                     .filter(p => {
                         if(!searchQuery) return true;
@@ -123,7 +131,6 @@ export default function IntegrationPage() {
                             : "bg-white hover:bg-slate-50 text-slate-600 border-transparent"
                         }`}
                     >
-                        {/* Highlight Match (Optional) */}
                         <div className="font-bold truncate">{p.name}</div>
                         <div className={`text-xs mt-1 ${selectedPatient?.id === p.id ? "text-slate-300" : "text-slate-400"}`}>
                             ID: {p.id.substring(0,8)}... • Risk: {p.risk_score}%
@@ -135,12 +142,14 @@ export default function IntegrationPage() {
 
         {/* Kolom Kanan: JSON Viewer */}
         <div className="lg:col-span-2 space-y-4">
-            {/* API Endpoint Simulation (URL Dinamis) */}
+            
+            {/* API Endpoint Simulation (URL DINAMIS) */}
             {selectedPatient && (
                 <div className="flex items-center gap-2 bg-slate-100 p-2 rounded-md border text-sm font-mono text-slate-600 overflow-x-auto">
                     <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs font-bold">GET</span>
                     <span className="truncate">
-                        https://vitalsense-production.vercel.app/api/fhir/{selectedPatient.id}
+                        {/* URL SEKARANG MENGIKUTI DOMAIN ASLI */}
+                        {baseUrl ? `${baseUrl}/api/fhir/${selectedPatient.id}` : "Generating Link..."}
                     </span>
                 </div>
             )}
