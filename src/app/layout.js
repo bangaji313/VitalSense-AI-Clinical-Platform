@@ -1,4 +1,6 @@
 import "./globals.css";
+import { AuthContextProvider } from "@/lib/AuthContext";
+import { SearchProvider } from "@/lib/SearchContext"; // Import baru
 
 export const metadata = {
   title: "VitalSense AI",
@@ -7,13 +9,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // Tambahkan suppressHydrationWarning={true} di sini
     <html lang="en" suppressHydrationWarning={true}>
-      <body
-        suppressHydrationWarning={true} 
-        className="antialiased"
-      >
-        {children}
+      <body suppressHydrationWarning={true} className="antialiased">
+        <AuthContextProvider>
+          <SearchProvider> {/* Pasang di sini */}
+            {children}
+          </SearchProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );
